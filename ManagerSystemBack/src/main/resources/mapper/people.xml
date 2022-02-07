@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.PeopleMappler">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.PeopleModel">
+        <constructor>
+            <idArg column="PeoPleId" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="PeoPleName" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="Email" javaType="java.lang.String" jdbcType="VARCHAR" />
+
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        PeoPleId,PeoPleName,Email
+    </sql>
+
+    <select id="GetAllPeople" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from people
+    </select>
+
+    <insert id="AddPeople">
+        insert into people(peopleId,peopleName,email)
+        values(#{PeopleId},#{PeopleName},#{Email})
+    </insert>
+
+    <delete id="DeletePeople">
+        delete from people where peopleId = #{PeopleId}
+    </delete>
+
+    <select id="GetPeopleByPeopleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from people
+        where peopleId = #{PeopleId}
+    </select>
+
+
+</mapper>

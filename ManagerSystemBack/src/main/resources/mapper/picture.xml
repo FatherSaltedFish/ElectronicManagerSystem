@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.PictureMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.PictureModel">
+        <constructor>
+            <arg column="PictureId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="Picture" javaType="java.lang.Byte" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        PictureId,Picture
+    </sql>
+
+    <insert id="InsertPicture" keyProperty="PictureId" useGeneratedKeys="true">
+        insert into picture(Picture) values (#{Picture})
+    </insert>
+
+    <select id="GetPictureById" resultType="com.example.demo.model.PictureModel">
+        select * from picture where PictureId=#{PictureId}
+    </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.ProjectMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.ProjectModel">
+        <constructor>
+            <idArg column="ProjectId" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="ProjectName" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="ProjectCost" javaType="java.lang.Float" jdbcType="FLOAT" />
+            <arg column="ProjectTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="ProjectMoney" javaType="java.lang.Float" jdbcType="FLOAT" />
+            <arg column="ProjectFinish" javaType="java.lang.Boolean" jdbcType="TINYINT"/>
+            <arg column="ProjectFinishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ProjectId,ProjectName,ProjectCost,ProjectTime,ProjectMoney,
+    ProjectFinish,ProjectFinishTime
+</sql>
+
+    <select id="GetAllProject" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from project
+    </select>
+
+
+    <select id="GetProjectByProjectId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from project
+        where ProjectId= #{ProjectId}
+    </select>
+
+    <update id="FinishProject" >
+        update
+        project
+        set ProjectFinishTime=#{ProjectFinishTime},ProjectFinish=1
+        where ProjectId = #{ProjectId}
+    </update>
+
+
+    <insert id="CreateProject">
+        insert into project(ProjectId,ProjectName,ProjectTime,ProjectMoney)
+         values (#{ProjectId},#{ProjectName},#{ProjectTime},#{ProjectMoney})
+
+    </insert>
+
+    <update id="UpdateProjectCostByProjectId">
+        update project
+        set ProjectCost=#{Number}
+        where ProjectId= #{ProjectId}
+    </update>
+
+    <select id="FindOneDayProject">
+        select *
+        from project
+        where ProjectTime >NOW() and NOW()+interval 1 day >projectTime
+    </select>
+
+    <delete id="DeleteProcess">
+        delete from project
+        where projectId=#{ProjectId}
+    </delete>
+
+</mapper>

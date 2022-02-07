@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.ProjectPeopleMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.ProjectPeopleModel">
+        <constructor>
+            <idArg column="ProjectId" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="PeopleId" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="ManagerDecide" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+            <arg column="Per" javaType="java.lang.Float" jdbcType="FLOAT" />
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ProjectId,PeopleId,ManagerDecide,Per
+</sql>
+
+    <select id="GetAllProjectPeopleByProjectId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from projectpeople
+        where projectId = #{ProjectId}
+    </select>
+
+
+    <select id="GetProjectPeopleByProjectIdPeopleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from projectpeople
+        where projectId = #{ProjectId} and peopleId=#{PeopleId}
+    </select>
+
+    <delete id="DeleteProjectPeople">
+                delete from projectpeople
+                 where peopleId = #{PeopleId} and projectId =#{ProjectId}
+    </delete>
+
+    <insert id="AddProjectPeople">
+        insert into projectpeople(projectId,peopleId,managerDecide,per)
+        values(#{ProjectId},#{PeopleId},#{ManagerDecide},#{Per})
+    </insert>
+
+    <update id="UpdateProjectPeople">
+        update projectpeople
+        set per=#{Per}
+        where projectid = #{ProjectId} and PeopleId = #{PeopleId}
+    </update>
+
+    <update id="DeleteMaster">
+        update projectpeople
+        set managerDecide = 0
+        where projectId=#{ProjectId} and managerDecide=1
+    </update>
+
+    <update id="SetMaster">
+        update projectpeople
+        set managerDecide = 1
+        where projectId=#{ProjectId} and peopleId=#{PeopleId}
+    </update>
+
+    <select id="FindMaster" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from projectpeople
+        where projectId = #{ProjectId} and managerDecide=1
+    </select>
+
+
+</mapper>
